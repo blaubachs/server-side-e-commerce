@@ -15,8 +15,11 @@ router.get("/:id", async (req, res) => {
   const find = await Category.findByPk(req.params.id, {
     include: Product,
   });
-
-  res.json(find);
+  if (!find) {
+    res.status(404).json({ msg: "No such category" });
+  } else {
+    res.json(find);
+  }
 });
 
 router.post("/", async (req, res) => {
